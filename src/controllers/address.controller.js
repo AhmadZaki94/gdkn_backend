@@ -31,22 +31,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:customerId/:customerId",async (req, res)=>{
-  try{
-    const address = await Address.findOne({customerId: req.params.customerId});
+router.get("/customers/:customerId", async (req, res) => {
+  try {
+    const address = await Address.findOne({
+      customerId: req.params.customerId,
+    });
     res.status(200).send(address);
-  }catch(err) {
-    return res.status(500).send({ message: err.message});
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
-    const address = await Address.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    )
+    const address = await Address.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
       .lean()
       .exec();
     res.status(200).send(address);

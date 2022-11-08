@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const customer = await Customer.findByIdAndUpdate(
       req.params.id,
@@ -43,6 +43,7 @@ router.patch("/:id", async (req, res) => {
     return res.status(500).send({ message: err.message });
   }
 });
+
 
 router.delete("/:id", async (req, res) => {
   try {
