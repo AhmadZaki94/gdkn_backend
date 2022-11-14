@@ -31,11 +31,9 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const customer = await Customer.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    )
+    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
       .lean()
       .exec();
     res.status(200).send(customer);
@@ -44,11 +42,29 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
 router.delete("/:id", async (req, res) => {
   try {
     const customer = await Customer.findOneAndDelete({ id: req.params.id });
     res.status(200).send(customer);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/search/:key", async (req, res) => {
+  try {
+    let customer = await Customer.find(
+      {
+        "$or": [
+          {firstName: {$regex: req.params.key}},
+          {lastName: {$regex: req.params.key}},
+          {email: {$regex: req.params.key}},
+          {userName: {$regex: req.params.key}}
+        ]
+      }
+      );
+    res.status(200).send(customer);
+    // console.log(req.params.key);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

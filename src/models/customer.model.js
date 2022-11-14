@@ -8,7 +8,7 @@ const customerSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     phone: { type: Number, required: true },
     dob: { type: String, required: true },
-    gender: { type: String, required: true },
+    gender: { type: String, enum: ["male", "female"], default: "male" },
   },
   {
     versionKey: false,
